@@ -1,0 +1,38 @@
+---
+- name: Copy site archive to server
+  copy:
+    src: site.tar.gz
+    dest: /tmp/site.tar.gz
+    owner: sa
+    group: sa
+
+- name: Extract site files
+  unarchive:
+    src: /tmp/site.tar.gz
+    dest: /var/www/madbox098
+    remote_src: yes
+    owner: sa
+    group: sa
+
+- name: Set correct permissions on web root
+  file:
+    path: /var/www/madbox098
+    recurse: yes
+    owner: sa
+    group: sa
+    mode: '0755'
+
+- name: Set correct permissions on files
+  file:
+    path: /var/www/madbox098
+    recurse: yes
+    mode: '0644'
+
+- name: Set correct permissions on directories
+  command: find /var/www/madbox098 -type d -exec chmod 755 {} \;
+  changed_when: false
+
+- name: Remove temporary archive
+  file:
+    path: /tmp/site.tar.gz
+    state: absent
