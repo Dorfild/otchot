@@ -1,5 +1,0 @@
-inventory.ini
-*.retry
-*.log
-roles/app/files/site.tar.gz
-.DS_Store
